@@ -1,0 +1,48 @@
+<div class="container mx-auto">
+  <div class="grid col-1">
+    <div class="flex flex-col gap-4 mt-5">
+      <form [formGroup]="form">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>Add task</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div>
+              <mat-form-field class="form-field">
+                <input matInput formControlName="title" type="text" placeholder="Enter title" />
+              </mat-form-field>
+            </div>
+            <div>
+              <mat-form-field class="form-field">
+                <input matInput formControlName="description" placeholder="Enter description" />
+              </mat-form-field>
+            </div>
+          </mat-card-content>
+          <mat-card-actions align="end">
+            <button mat-stroked-button [disabled]="form.invalid" (click)="onAddTask()">Submit</button>
+          </mat-card-actions>
+        </mat-card>
+      </form>
+    </div>
+    <div *ngIf="pageInfo && tasks.length">
+      <mat-paginator showFirstLastButtons
+      [length]="pageInfo.totalElements"
+      [pageIndex]="pageInfo.currentPage"
+      [pageSize]="pageInfo.pageSize"
+      [pageSizeOptions]="pageSizeOptions"
+      (page)="itemsPerPage($event)"
+      >
+      </mat-paginator>
+    </div>
+    <section *ngIf="tasks && tasks.length" class="xl:flex xl:flex-row xl:flex-wrap  xl:gap-5 md:flex md:flex-row md:flex-wrap  md:gap-5">
+      <mat-card class="w-72 h-32 p-4 m-4" *ngFor="let task of tasks$ | async">
+        <mat-card-header>
+          <mat-card-title>{{task.title}}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p> {{task.description}} </p>
+        </mat-card-content>
+      </mat-card>
+    </section>
+  </div>
+</div>
